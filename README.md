@@ -1,8 +1,7 @@
-"# Learning-Navigator" 
+### Learning-Navigator
 
-
-
-## Requirements
+# Problem Description
+The exam registration service is a critical component of a Learning Management System. Generally, exam registration requires thorough Authentication and Authorization. For this assessment, your task is to develop a simplified version of the exam registration service that meets the specified requirements below.
 
 ## Student Endpoints
 - GET /students - Get all the students
@@ -14,6 +13,7 @@
    "name":"Harsh Nayak"
 }
 ```
+
 - UPDATE /students/{registrationId} - Update details of a student
 # Request Body
 ```json
@@ -21,6 +21,7 @@
    "name":"Sahil Nayak"
 }
 ```
+
 - DELETE /students/{registrationId} - Delete a student
 
 
@@ -44,37 +45,20 @@
 - DELETE /subjects/{subjectId} - Delete a subject
 
 
-
-
-## Setup
-
-To run this application locally, follow these steps:
-
-1. Clone this repository:
-
-   ```bash
-   git clone 
-   ```
-
-2. Build the application using Maven:
-    ```bash
-   mvnw clean package
-   ```
-
-3. Run the application:
-    ```bash
-    java -jar target/-0.0.1-SNAPSHOT.jar
-    ```
-
-## Testing
-Run the JUnit test cases using:
-
-    mvnw test
-
-The tests include Mockito for mocking dependencies and verifying interactions between components.
+## Exam Endpoints
+- GET /exams - Get all exams
+- GET /exams/{examId} - Get an exam by examId
+- POST /exams/subject/{subjectId} - Register a new exam
+- POST /exams/{examId} - Register Student to exam
+# Request Body
+```json
+{
+	"studentId": 1
+}
+```
 
 ## Postman Collection
-https://elements.getpostman.com/redirect?entityId=7585977-91431c0d-2f04-429f-ba63-8bb8b9310765&entityType=collection
+https://elements.getpostman.com/redirect?entityId=7585977-240cbeea-74e9-48bf-b291-5606e5da1255&entityType=collection
 
 ## License
 Harsh Nayak
