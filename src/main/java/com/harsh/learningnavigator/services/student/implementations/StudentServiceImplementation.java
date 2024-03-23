@@ -40,6 +40,9 @@ public class StudentServiceImplementation implements StudentService {
 
     @Override
     public StudentDto getStudentById(Long id) {
+        if(id == null) {
+            throw new IllegalArgumentException("Student ID cannot be null");
+        }
         Student student = studentRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Student", "Student Id", Long.toString(id)));
         return modelMapper.map(student, StudentDto.class);        
@@ -59,6 +62,14 @@ public class StudentServiceImplementation implements StudentService {
 
     @Override
     public StudentDto updateStudent(Long studentId, StudentDto studentDto) {
+        if(studentId == null) {
+            throw new IllegalArgumentException("Student ID cannot be null");
+        }
+
+        if(studentDto == null) {
+            throw new IllegalArgumentException("Student cannot be null");
+        }
+        
         Student student = studentRepository.findById(studentId)
             .orElseThrow(() -> new ResourceNotFoundException("Student", "Student Id", Long.toString(studentId)));
 
@@ -69,6 +80,12 @@ public class StudentServiceImplementation implements StudentService {
 
     @Override
     public StudentDto enrollStudentToSubject(Long studentId, Long subjectId) {
+        if(studentId == null) {
+            throw new IllegalArgumentException("Student ID cannot be null");
+        }
+        if(subjectId == null) {
+            throw new IllegalArgumentException("Subject ID cannot be null");
+        }
         Student student = studentRepository.findById(studentId)
             .orElseThrow(() -> new ResourceNotFoundException("Student", "Student Id", Long.toString(studentId)));
         Subject subject = subjectRepository.findById(subjectId)
@@ -81,6 +98,9 @@ public class StudentServiceImplementation implements StudentService {
 
     @Override
     public EmptyBodyDto delete(Long studentId) {
+        if(studentId == null) {
+            throw new IllegalArgumentException("Student ID cannot be null");
+        }
         Student student = studentRepository.findById(studentId)
             .orElseThrow(() -> new ResourceNotFoundException("Student", "Student Id", Long.toString(studentId)));
         studentRepository.delete(student);

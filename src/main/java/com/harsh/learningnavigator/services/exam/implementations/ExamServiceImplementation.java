@@ -3,7 +3,6 @@ package com.harsh.learningnavigator.services.exam.implementations;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.harsh.learningnavigator.dto.EmptyBodyDto;
@@ -24,14 +23,12 @@ public class ExamServiceImplementation implements ExamService {
     private ExamRepository examRepository;
     private SubjectRepository subjectRepository;
     private StudentRepository studentRepository;
-    private ModelMapper modelMapper;
 
     public ExamServiceImplementation(ExamRepository examRepository, SubjectRepository subjectRepository,
-            StudentRepository studentRepository, ModelMapper modelMapper) {
+            StudentRepository studentRepository) {
         this.examRepository = examRepository;
         this.subjectRepository = subjectRepository;
         this.studentRepository = studentRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -49,6 +46,9 @@ public class ExamServiceImplementation implements ExamService {
 
     @Override
     public ExamDto getExamById(Long examId) {
+        if(examId == null) {
+            throw new IllegalArgumentException("Exam ID cannot be null");
+        }
         Exam exam = examRepository.findById(examId)
             .orElseThrow(() -> new ResourceNotFoundException("Exam", "Exam Id", Long.toString(examId)));
         // return modelMapper.map(exam, ExamDto.class);
@@ -57,18 +57,32 @@ public class ExamServiceImplementation implements ExamService {
 
     @Override
     public ExamDto addExam(Long subjectId) {
+        if(subjectId == null) {
+            throw new IllegalArgumentException("Subject ID cannot be null");
+        }
         Subject subject = subjectRepository.findById(subjectId)
             .orElseThrow(() -> new ResourceNotFoundException("Subject", "Subject Id", Long.toString(subjectId)));
         Exam exam = new Exam();
         exam.setSubject(subject);
         Exam savedExam = examRepository.save(exam);
         // return modelMapper.map(savedExam, ExamDto.class);
-        return map(exam);
+        return map(savedExam);
 
     }
 
     @Override
     public ExamDto registerStudent(Long examId, RegisterStudentInExamDto entity) {
+        if(examId == null) {
+            throw new IllegalArgumentException("Exam ID cannot be null");
+        }
+        if(entity == null) {
+            throw new IllegalArgumentException("Student cannot be null");
+        }
+
+        if(entity.getStudentId() == null) {
+            throw new IllegalArgumentException("Student ID cannot be null");
+        }
+        
         Exam exam = examRepository.findById(examId)
             .orElseThrow(() -> new ResourceNotFoundException("Exam", "Exam Id", Long.toString(examId)));
         Student student = studentRepository.findById(entity.getStudentId())
@@ -107,6 +121,10 @@ public class ExamServiceImplementation implements ExamService {
 
     @Override
     public EmptyBodyDto deleteExam(Long examId) {
+        if(examId == null) {
+            throw new IllegalArgumentException("Exam ID cannot be null");
+        }
+        
         Exam exam = examRepository.findById(examId)
             .orElseThrow(() -> new ResourceNotFoundException("Exam", "Exam Id", Long.toString(examId)));
         

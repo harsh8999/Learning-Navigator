@@ -3,8 +3,6 @@ package com.harsh.learningnavigator.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.harsh.learningnavigator.dto.EmptyBodyDto;
-import com.harsh.learningnavigator.dto.ExamDto;
-import com.harsh.learningnavigator.dto.RegisterStudentInExamDto;
 import com.harsh.learningnavigator.dto.StudentDto;
 import com.harsh.learningnavigator.dto.StudentReqeustDto;
 import com.harsh.learningnavigator.services.student.StudentService;
