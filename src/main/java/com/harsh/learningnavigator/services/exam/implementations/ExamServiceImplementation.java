@@ -1,17 +1,14 @@
 package com.harsh.learningnavigator.services.exam.implementations;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.harsh.learningnavigator.dto.EmptyBodyDto;
 import com.harsh.learningnavigator.dto.ExamDto;
 import com.harsh.learningnavigator.dto.RegisterStudentInExamDto;
-import com.harsh.learningnavigator.dto.StudentDto;
-import com.harsh.learningnavigator.dto.SubjectDto;
 import com.harsh.learningnavigator.entity.Exam;
 import com.harsh.learningnavigator.entity.Student;
 import com.harsh.learningnavigator.entity.Subject;
@@ -91,11 +88,11 @@ public class ExamServiceImplementation implements ExamService {
         exam.registerStudent(student);
 
         // Add the exam to the enrolled exams of the student
-        student.getRegisteredExams().add(exam);
+        // student.getRegisteredExams().add(exam);
 
         // Save both entities to maintain the bidirectional relationship
         examRepository.save(exam);
-        studentRepository.save(student);
+        // studentRepository.save(student);
         return map(exam);
         // return modelMapper.map(exam, ExamDto.class);
     }
@@ -103,20 +100,18 @@ public class ExamServiceImplementation implements ExamService {
     private ExamDto map(Exam exam) {
         ExamDto examDto = new ExamDto();
         examDto.setId(exam.getId());
-
-        SubjectDto subjectDto = new SubjectDto();
-        subjectDto.setId(exam.getSubject().getSubjectId());
-        subjectDto.setSubjectName(exam.getSubject().getName());
-        // examDto.setSubject(subjectDto);
-        // Set<StudentDto> studentDtos = new HashSet<>();
-        // exam.getRegisteredStudents().forEach(student -> {
-        //     StudentDto studentDto = new StudentDto();
-        //     studentDto.setId(student.getRegistrationId());
-        //     studentDto.setName(student.getName());
-        //     studentDtos.add(studentDto);
-        // });
+        examDto.setSubject(exam.getSubject());
         examDto.setRegisteredStudents(exam.getRegisteredStudents());
         return examDto;
+    }
+
+    @Override
+    public EmptyBodyDto deleteExam(Long examId) {
+        Exam exam = examRepository.findById(examId)
+            .orElseThrow(() -> new ResourceNotFoundException("Exam", "Exam Id", Long.toString(examId)));
+        
+        examRepository.delete(exam);
+        return new EmptyBodyDto();
     }
         
 }

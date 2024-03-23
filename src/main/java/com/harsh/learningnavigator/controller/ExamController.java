@@ -2,6 +2,7 @@ package com.harsh.learningnavigator.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.harsh.learningnavigator.dto.EmptyBodyDto;
 import com.harsh.learningnavigator.dto.ExamDto;
 import com.harsh.learningnavigator.dto.RegisterStudentInExamDto;
 import com.harsh.learningnavigator.services.exam.ExamService;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +35,11 @@ public class ExamController {
     public ResponseEntity<List<ExamDto>> getAllExams() {
         return new ResponseEntity<>(examService.getExams(), HttpStatus.OK);
     }
+
+    @GetMapping(URL_PATH + "/{examId}")
+    public ResponseEntity<ExamDto> getExam(@PathVariable("examId") Long examId) {
+        return new ResponseEntity<>(examService.getExamById(examId), HttpStatus.OK);
+    }
     
     @PostMapping(URL_PATH + "/subject/{subjectId}")
     public ResponseEntity<ExamDto> addExam(@PathVariable("subjectId") Long subjectId) {
@@ -44,4 +51,8 @@ public class ExamController {
         return new ResponseEntity<>(examService.registerStudent(examId, studentInExamDto), HttpStatus.OK);
     }
    
+    @DeleteMapping(URL_PATH + "/{examId}")
+    public ResponseEntity<EmptyBodyDto> deleteStudent(@PathVariable Long examId) {
+        return new ResponseEntity<>(examService.deleteExam(examId), HttpStatus.NO_CONTENT);
+    }
 }
