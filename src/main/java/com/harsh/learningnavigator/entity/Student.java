@@ -1,12 +1,16 @@
 package com.harsh.learningnavigator.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,7 +30,6 @@ public class Student {
     Long registrationId;
 
     String name;
-
     
     /* 
     Each student can be enrolled in multiple subjects, 
@@ -34,7 +37,7 @@ public class Student {
     therefore many to many relation 
     */
     @ManyToMany
-    List<Subject> enrolledSubjects;
+    Set<Subject> enrolledSubjects = new HashSet<>();
 
     /*
     Each student can be registered for multiple exams, 
@@ -42,15 +45,30 @@ public class Student {
     therefore many to many relation
     */
     @ManyToMany
-    List<Exam> registeredExams;
+    @JoinTable(name = "Student_Exam_Mapping", joinColumns = @JoinColumn(name = "student_id"), 
+        	inverseJoinColumns = @JoinColumn(name = "exam_id"))
+    Set<Exam> registeredExams = new HashSet<>();
 
-    public Student(Long registrationId, String name) {
-        this.registrationId = registrationId;
-        this.name = name;
-        this.enrolledSubjects = new ArrayList<>();
-        this.registeredExams = new ArrayList<>();
+    public boolean addSubject(Subject subject) {
+        return enrolledSubjects.add(subject);
     }
 
+    public boolean enrollStudentToExam(Exam exam) {
+        return registeredExams.add(exam);
+    }
     
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(registrationId, name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Student)) return false;
+        Student other = (Student) obj;
+        return Objects.equals(registrationId, other.registrationId) && Objects.equals(name, other.name);
+    }
 
 }
