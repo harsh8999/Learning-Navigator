@@ -1,13 +1,17 @@
 package com.harsh.learningnavigator.services.exam.implementations;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.harsh.learningnavigator.dto.ExamDto;
 import com.harsh.learningnavigator.dto.RegisterStudentInExamDto;
+import com.harsh.learningnavigator.dto.StudentDto;
+import com.harsh.learningnavigator.dto.SubjectDto;
 import com.harsh.learningnavigator.entity.Exam;
 import com.harsh.learningnavigator.entity.Student;
 import com.harsh.learningnavigator.entity.Subject;
@@ -39,7 +43,8 @@ public class ExamServiceImplementation implements ExamService {
         List<ExamDto> examDtos = new ArrayList<>();
         exams.forEach(exam -> {
             examDtos.add(
-                modelMapper.map(exam, ExamDto.class)
+                // modelMapper.map(exam, ExamDto.class)
+                map(exam)
             );
         });
         return examDtos;
@@ -49,7 +54,8 @@ public class ExamServiceImplementation implements ExamService {
     public ExamDto getExamById(Long examId) {
         Exam exam = examRepository.findById(examId)
             .orElseThrow(() -> new ResourceNotFoundException("Exam", "Exam Id", Long.toString(examId)));
-        return modelMapper.map(exam, ExamDto.class);
+        // return modelMapper.map(exam, ExamDto.class);
+        return map(exam);
     }
 
     @Override
@@ -59,11 +65,13 @@ public class ExamServiceImplementation implements ExamService {
         Exam exam = new Exam();
         exam.setSubject(subject);
         Exam savedExam = examRepository.save(exam);
-        return modelMapper.map(savedExam, ExamDto.class);
+        // return modelMapper.map(savedExam, ExamDto.class);
+        return map(exam);
+
     }
 
     @Override
-    public Exam registerStudent(Long examId, RegisterStudentInExamDto entity) {
+    public ExamDto registerStudent(Long examId, RegisterStudentInExamDto entity) {
         Exam exam = examRepository.findById(examId)
             .orElseThrow(() -> new ResourceNotFoundException("Exam", "Exam Id", Long.toString(examId)));
         Student student = studentRepository.findById(entity.getStudentId())
@@ -88,9 +96,27 @@ public class ExamServiceImplementation implements ExamService {
         // Save both entities to maintain the bidirectional relationship
         examRepository.save(exam);
         studentRepository.save(student);
-        return exam;
+        return map(exam);
         // return modelMapper.map(exam, ExamDto.class);
     }
 
+    private ExamDto map(Exam exam) {
+        ExamDto examDto = new ExamDto();
+        examDto.setId(exam.getId());
+
+        SubjectDto subjectDto = new SubjectDto();
+        subjectDto.setId(exam.getSubject().getSubjectId());
+        subjectDto.setSubjectName(exam.getSubject().getName());
+        // examDto.setSubject(subjectDto);
+        // Set<StudentDto> studentDtos = new HashSet<>();
+        // exam.getRegisteredStudents().forEach(student -> {
+        //     StudentDto studentDto = new StudentDto();
+        //     studentDto.setId(student.getRegistrationId());
+        //     studentDto.setName(student.getName());
+        //     studentDtos.add(studentDto);
+        // });
+        examDto.setRegisteredStudents(exam.getRegisteredStudents());
+        return examDto;
+    }
         
 }

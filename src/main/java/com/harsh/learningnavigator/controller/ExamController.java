@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.harsh.learningnavigator.dto.ExamDto;
 import com.harsh.learningnavigator.dto.RegisterStudentInExamDto;
-import com.harsh.learningnavigator.entity.Exam;
 import com.harsh.learningnavigator.services.exam.ExamService;
 
 import java.util.List;
@@ -41,7 +40,7 @@ public class ExamController {
     }
     
     @PostMapping(URL_PATH + "/{examId}")
-    public ResponseEntity<Exam> registerStudentInExam(@PathVariable("examId") Long examId, @RequestBody RegisterStudentInExamDto studentInExamDto) {
+    public ResponseEntity<ExamDto> registerStudentInExam(@PathVariable("examId") Long examId, @RequestBody RegisterStudentInExamDto studentInExamDto) {
         return new ResponseEntity<>(examService.registerStudent(examId, studentInExamDto), HttpStatus.OK);
     }
    

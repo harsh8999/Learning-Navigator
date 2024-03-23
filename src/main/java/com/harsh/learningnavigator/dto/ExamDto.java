@@ -2,6 +2,9 @@ package com.harsh.learningnavigator.dto;
 
 import java.util.Set;
 
+import com.harsh.learningnavigator.entity.Student;
+import com.harsh.learningnavigator.entity.Subject;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +18,6 @@ import lombok.experimental.FieldDefaults;
 public class ExamDto {
     
     Long id;
-    SubjectDto subject;
-    Set<StudentDto> registeredStudents;
+    Subject subject;
+    Set<Student> registeredStudents;
 }
