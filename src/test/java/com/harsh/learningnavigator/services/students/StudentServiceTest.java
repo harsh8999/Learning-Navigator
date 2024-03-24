@@ -18,13 +18,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Description;
 
-import com.harsh.learningnavigator.dto.StudentDto;
-import com.harsh.learningnavigator.dto.StudentReqeustDto;
-import com.harsh.learningnavigator.entity.Student;
-import com.harsh.learningnavigator.exception.ResourceNotFoundException;
-import com.harsh.learningnavigator.repository.StudentRepository;
-import com.harsh.learningnavigator.repository.SubjectRepository;
-import com.harsh.learningnavigator.services.student.implementations.StudentServiceImplementation;
+import com.harsh.learningnavigator.exception.exceptions.ResourceNotFoundException;
+import com.harsh.learningnavigator.student.dto.StudentDto;
+import com.harsh.learningnavigator.student.dto.StudentReqeustDto;
+import com.harsh.learningnavigator.student.entity.Student;
+import com.harsh.learningnavigator.student.repository.StudentRepository;
+import com.harsh.learningnavigator.student.services.implementations.StudentServiceImplementation;
+import com.harsh.learningnavigator.subject.repository.SubjectRepository;
 
 @SpringBootTest
 public class StudentServiceTest {
