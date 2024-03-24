@@ -65,6 +65,9 @@ Subject will only be deleted if Subject has no exam.. If you still want to delet
 ```
 - DELETE /exams/{examId} - Delete an exam
 
+## Easter Egg Endpoints
+- GET /hidden-feature/{number} - Get a fact about a number
+
 
 ## Postman Collection
 https://elements.getpostman.com/redirect?entityId=7585977-240cbeea-74e9-48bf-b291-5606e5da1255&entityType=collection
