@@ -1,10 +1,12 @@
-package com.harsh.learningnavigator.student.controller;
+package com.harsh.learningnavigator.exam.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,60 +16,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Description;
-
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.harsh.learningnavigator.exception.exceptions.ResourceNotFoundException;
+import com.harsh.learningnavigator.dto.EmptyBodyDto;
+import com.harsh.learningnavigator.exam.dto.ExamDto;
+import com.harsh.learningnavigator.exam.dto.RegisterStudentInExamDto;
+import com.harsh.learningnavigator.exam.services.implementations.ExamServiceImplementation;
 import com.harsh.learningnavigator.exception.handler.GlobalExceptionHandler;
-import com.harsh.learningnavigator.student.dto.StudentDto;
-import com.harsh.learningnavigator.student.dto.StudentRequestDto;
-import com.harsh.learningnavigator.student.services.implementations.StudentServiceImplementation;
+import com.harsh.learningnavigator.subject.entity.Subject;
 
-
-@WebMvcTest(controllers = StudentController.class)
-public class StudentControllerTest {
-
+@WebMvcTest(controllers = ExamController.class)
+public class ExamControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @InjectMocks
-    private StudentController studentController;
+    private ExamController examController;
 
     @MockBean
-    private StudentServiceImplementation studentService;
+    private ExamServiceImplementation examService;
 
     @BeforeEach
     public void setUp() {
-        studentService = mock(StudentServiceImplementation.class);
-        studentController = new StudentController(studentService);
+        examService = mock(ExamServiceImplementation.class);
+        examController = new ExamController(examService);
     }
 
 
-    private static final String BASE_URL = "/students";
+    private static final String BASE_URL = "/exams";
 
     @Test
     public void addStudentTest() throws Exception {
-        StudentRequestDto studentRequestDto = new StudentRequestDto("Harsh");
-        StudentDto studentResponseDto = new StudentDto(1L, "Harsh", null, null);
+        Subject subject = new Subject(1L, "Maths");
+        ExamDto examDto = new ExamDto(1L, subject, new HashSet<>());
         
-        when(studentService.addStudent(studentRequestDto)).thenReturn(studentResponseDto);
+        when(examService.addExam(anyLong())).thenReturn(examDto);
 
         mockMvc.perform(MockMvcRequestBuilders
-                .post(BASE_URL)
+                .post(BASE_URL + "/subject/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(studentRequestDto))
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isCreated());
     }
 
     @Test
-    public void getStudentsTest() throws Exception {
+    public void getExamsTest() throws Exception {
         // for now just return empty list
-        when(studentService.getAllStudents()).thenReturn(List.of());
+        when(examService.getExams()).thenReturn(List.of());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .get(BASE_URL)
@@ -77,55 +76,48 @@ public class StudentControllerTest {
     }
 
     @Test
-    public void getStudentByIdTest() throws Exception {
-        StudentDto studentDto = new StudentDto(1L, "Harsh", null, null);
-        when(studentService.getStudentById(anyLong())).thenReturn(studentDto);
-
-
+    public void getExamByIdTest() throws Exception {
+        ExamDto examDto = new ExamDto(1L, new Subject(), null);
+        when(examService.getExamById(anyLong())).thenReturn(examDto);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .get(BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON))
-            .andExpectAll(
-                status().isOk()
-            );
+            .andExpect(status().isOk());
 
     }
 
     @Test
     @Description("IllegalArgumentException Exception")
     public void getStudentById_IllegalArgumentExceptionTest() throws Exception {
-        // Mock the service to throw ResourceNotFoundException when getStudentById is called
-        when(studentService.getStudentById(anyLong())).thenThrow(IllegalArgumentException.class);
+        
+        when(examService.registerStudent(anyLong(), any(RegisterStudentInExamDto.class))).thenThrow(IllegalArgumentException.class);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(studentController)
+        mockMvc = MockMvcBuilders.standaloneSetup(examController)
                 .setControllerAdvice(new GlobalExceptionHandler()) // add global exception handler
                 .build();
+
+        RegisterStudentInExamDto registerStudentInExamDto = new RegisterStudentInExamDto(1L);
         
-        // Perform GET request and assert the response status
+        
         mockMvc.perform(MockMvcRequestBuilders
-                .get(BASE_URL + "/9")
-                .contentType(MediaType.APPLICATION_JSON))
+                .post(BASE_URL + "/9")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(registerStudentInExamDto)))
             .andExpect(status().isNotFound()); // Assert HTTP status code
     }
 
+
     @Test
-    @Description("Student NOT found Exception")
-    public void getStudentById_ResourceNotFoundExceptionTest() throws Exception {
-
+    @Description("Delete Test No content status")
+    public void deleteStudentTest() throws Exception {
         
-        // Mock the service to throw ResourceNotFoundException when getStudentById is called
-        when(studentService.getStudentById(anyLong())).thenThrow(ResourceNotFoundException.class);
+        when(examService.deleteExam(anyLong())).thenReturn(new EmptyBodyDto());
 
-        mockMvc = MockMvcBuilders.standaloneSetup(studentController)
-                .setControllerAdvice(new GlobalExceptionHandler()) // add global exception handler
-                .build();
-        
-        // Perform GET request and assert the response status
         mockMvc.perform(MockMvcRequestBuilders
-                .get(BASE_URL + "/9")
+                .delete(BASE_URL + "/9")
                 .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNotFound()); // Assert HTTP status code
+            .andExpect(status().isNoContent()); // Assert HTTP status code
     }
 
     // Utility method to convert object to JSON string
@@ -138,5 +130,4 @@ public class StudentControllerTest {
             throw new RuntimeException(e);
         }
     }
-    
 }
