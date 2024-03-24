@@ -43,7 +43,6 @@ public class StudentServiceTest {
 
     @BeforeEach
     public void setUp() {
-        studentRepository = mock(StudentRepository.class);
         studentService = new StudentServiceImplementation(studentRepository, subjectRepository, modelMapper);
     }
 

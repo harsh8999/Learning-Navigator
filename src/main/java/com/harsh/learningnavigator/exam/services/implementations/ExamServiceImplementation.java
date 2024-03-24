@@ -37,7 +37,6 @@ public class ExamServiceImplementation implements ExamService {
         List<ExamDto> examDtos = new ArrayList<>();
         exams.forEach(exam -> {
             examDtos.add(
-                // modelMapper.map(exam, ExamDto.class)
                 map(exam)
             );
         });
@@ -93,22 +92,9 @@ public class ExamServiceImplementation implements ExamService {
             throw new IllegalStateException("Student is not enrolled in the subject of this exam.");
         }
 
-        // here hibernate is giving error to bidirectional relation 
-        // exam.getRegisteredStudents().add(student2);
-        // Exam updatedExam = examRepository.save(exam);
-
-        // solution...
-        // Add the student to the enrolled students of the exam
         exam.registerStudent(student);
-
-        // Add the exam to the enrolled exams of the student
-        // student.getRegisteredExams().add(exam);
-
-        // Save both entities to maintain the bidirectional relationship
         examRepository.save(exam);
-        // studentRepository.save(student);
         return map(exam);
-        // return modelMapper.map(exam, ExamDto.class);
     }
 
     private ExamDto map(Exam exam) {
