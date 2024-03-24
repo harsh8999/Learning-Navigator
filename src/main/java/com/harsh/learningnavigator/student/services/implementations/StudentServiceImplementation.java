@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.harsh.learningnavigator.dto.EmptyBodyDto;
 import com.harsh.learningnavigator.exception.exceptions.ResourceNotFoundException;
 import com.harsh.learningnavigator.student.dto.StudentDto;
-import com.harsh.learningnavigator.student.dto.StudentReqeustDto;
+import com.harsh.learningnavigator.student.dto.StudentRequestDto;
 import com.harsh.learningnavigator.student.entity.Student;
 import com.harsh.learningnavigator.student.repository.StudentRepository;
 import com.harsh.learningnavigator.student.services.StudentService;
@@ -31,7 +31,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     @Override
-    public StudentDto addStudent(StudentReqeustDto entity) {
+    public StudentDto addStudent(StudentRequestDto entity) {
         Student newStudent = new Student();
         newStudent.setName(entity.getName());
         Student savedStudent = studentRepository.save(newStudent);

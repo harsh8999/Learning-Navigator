@@ -3,7 +3,7 @@ package com.harsh.learningnavigator.student.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.harsh.learningnavigator.student.dto.StudentDto;
-import com.harsh.learningnavigator.student.dto.StudentReqeustDto;
+import com.harsh.learningnavigator.student.dto.StudentRequestDto;
 import com.harsh.learningnavigator.student.services.StudentService;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class StudentController {
     }
 
     @PostMapping(URL_PATH)
-    public ResponseEntity<StudentDto> addStudent(@RequestBody StudentReqeustDto entity) {
+    public ResponseEntity<StudentDto> addStudent(@RequestBody StudentRequestDto entity) {
         return new ResponseEntity<>(studentService.addStudent(entity) , HttpStatus.CREATED);
     }
 

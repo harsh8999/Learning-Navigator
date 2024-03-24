@@ -1,4 +1,4 @@
-package com.harsh.learningnavigator.services.students;
+package com.harsh.learningnavigator.student.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Description;
 
 import com.harsh.learningnavigator.exception.exceptions.ResourceNotFoundException;
 import com.harsh.learningnavigator.student.dto.StudentDto;
-import com.harsh.learningnavigator.student.dto.StudentReqeustDto;
+import com.harsh.learningnavigator.student.dto.StudentRequestDto;
 import com.harsh.learningnavigator.student.entity.Student;
 import com.harsh.learningnavigator.student.repository.StudentRepository;
 import com.harsh.learningnavigator.student.services.implementations.StudentServiceImplementation;
@@ -54,7 +54,7 @@ public class StudentServiceTest {
         student.setRegistrationId(1L);
         when(studentRepository.save(any(Student.class))).thenReturn(student);
 
-        StudentDto studentDto = studentService.addStudent(new StudentReqeustDto("Harsh"));
+        StudentDto studentDto = studentService.addStudent(new StudentRequestDto("Harsh"));
 
         assertEquals(student.getName(), studentDto.getName());
     }
