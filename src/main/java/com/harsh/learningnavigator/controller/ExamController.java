@@ -52,7 +52,9 @@ public class ExamController {
     }
    
     @DeleteMapping(URL_PATH + "/{examId}")
-    public ResponseEntity<EmptyBodyDto> deleteStudent(@PathVariable Long examId) {
-        return new ResponseEntity<>(examService.deleteExam(examId), HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long examId) {
+        // return new ResponseEntity<>(examService.deleteExam(examId), HttpStatus.NO_CONTENT);
+        examService.deleteExam(examId);
+        return ResponseEntity.noContent().build();
     }
 }

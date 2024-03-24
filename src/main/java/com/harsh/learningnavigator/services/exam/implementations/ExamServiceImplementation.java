@@ -124,10 +124,13 @@ public class ExamServiceImplementation implements ExamService {
         if(examId == null) {
             throw new IllegalArgumentException("Exam ID cannot be null");
         }
-        
+
         Exam exam = examRepository.findById(examId)
             .orElseThrow(() -> new ResourceNotFoundException("Exam", "Exam Id", Long.toString(examId)));
         
+        if(exam == null) {
+            throw new ResourceNotFoundException("Exam", "Exam Id", Long.toString(examId));
+        }
         examRepository.delete(exam);
         return new EmptyBodyDto();
     }
