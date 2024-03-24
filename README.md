@@ -13,20 +13,20 @@ The exam registration service is a critical component of a Learning Management S
 - GET /students - Get all the students
 - GET /students/{registrationId} - Get a student by registrationId
 - POST /students - Register a new student
-# Request Body
-```json
-{
-   "name":"Harsh Nayak"
-}
-```
+   Request Body
+   ```json
+   {
+      "name":"Harsh Nayak"
+   }
+   ```
 
 - UPDATE /students/{registrationId} - Update details of a student
-# Request Body
-```json
-{
-   "name":"Sahil Nayak"
-}
-```
+   Request Body
+   ```json
+   {
+      "name":"Sahil Nayak"
+   }
+   ```
 
 - DELETE /students/{registrationId} - Delete a student
 
@@ -35,19 +35,19 @@ The exam registration service is a critical component of a Learning Management S
 - GET /subjects - Get all subjects
 - GET /subjects/{subjectId} - Get a subject by subjectId
 - POST /subjects - Register a new subject
-# Request Body
-```json
-{
-   "name":"Computer Networks"
-}
-```
+   Request Body
+   ```json
+   {
+      "name":"Computer Networks"
+   }
+   ```
 - UPDATE /subjects/{subjectId} - Update details of a subject
-# Request Body
-```json
-{
-   "name":"English"
-}
-```
+   Request Body
+   ```json
+   {
+      "name":"English"
+   }
+   ```
 - DELETE /subjects/{subjectId} - Delete a subject
 Subject will only be deleted if Subject has no exam.. If you still want to delete subject first delete the exam.
 
@@ -57,12 +57,12 @@ Subject will only be deleted if Subject has no exam.. If you still want to delet
 - GET /exams/{examId} - Get an exam by examId
 - POST /exams/subject/{subjectId} - Register a new exam
 - POST /exams/{examId} - Register Student to exam
-# Request Body
-```json
-{
-	"studentId": 1
-}
-```
+   Request Body
+   ```json
+   {
+      "studentId": 1
+   }
+   ```
 - DELETE /exams/{examId} - Delete an exam
 
 
