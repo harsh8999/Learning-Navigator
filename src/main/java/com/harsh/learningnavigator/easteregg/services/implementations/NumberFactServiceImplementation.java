@@ -11,13 +11,23 @@ import org.springframework.web.client.RestTemplate;
 
 import com.harsh.learningnavigator.easteregg.services.NumberFactService;
 
+/**
+ * Implementation of the NumberFactService interface.
+ */
 @Service
 public class NumberFactServiceImplementation implements NumberFactService {
-
+    
+    /** Base URL for the number fact generation API. */
     String NUMBER_GENERATOR_BASE_URL = "http://numbersapi.com/";
 
+    /** Instance of RestTemplate to make HTTP requests. */
     private RestTemplate restTemplate;
 
+    /**
+     * Constructs a new NumberFactServiceImplementation with the given RestTemplate.
+     * 
+     * @param restTemplate The RestTemplate instance to use for HTTP requests.
+     */
     public NumberFactServiceImplementation(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -26,6 +25,9 @@ import com.harsh.learningnavigator.student.repository.StudentRepository;
 import com.harsh.learningnavigator.student.services.implementations.StudentServiceImplementation;
 import com.harsh.learningnavigator.subject.repository.SubjectRepository;
 
+/**
+ * Test class for StudentServiceImplementation.
+ */
 @SpringBootTest
 public class StudentServiceTest {
     

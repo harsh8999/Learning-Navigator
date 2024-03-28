@@ -27,7 +27,9 @@ import com.harsh.learningnavigator.student.dto.StudentDto;
 import com.harsh.learningnavigator.student.dto.StudentRequestDto;
 import com.harsh.learningnavigator.student.services.implementations.StudentServiceImplementation;
 
-
+/**
+ * Test class for StudentController.
+ */
 @WebMvcTest(controllers = StudentController.class)
 public class StudentControllerTest {
 

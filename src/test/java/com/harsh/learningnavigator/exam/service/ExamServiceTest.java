@@ -23,6 +23,9 @@ import com.harsh.learningnavigator.student.entity.Student;
 import com.harsh.learningnavigator.student.repository.StudentRepository;
 import com.harsh.learningnavigator.subject.repository.SubjectRepository;
 
+/**
+ * Test class for ExamService.
+ */
 @SpringBootTest
 public class ExamServiceTest {
     

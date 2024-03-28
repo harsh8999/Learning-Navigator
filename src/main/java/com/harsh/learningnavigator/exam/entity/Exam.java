@@ -22,12 +22,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * Entity class representing an exam.
+ */
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Exam {
+    
+    /** Unique identifier for the exam. */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
@@ -35,10 +40,15 @@ public class Exam {
     /*
     A subject can have multiple exam but exam has only one subject
     */
+    /** The subject of the exam. */
     @ManyToOne
     Subject subject;
 
 
+    /** 
+     * Set of students registered for the exam.
+     * Many-to-many relationship with Student entities.
+     */
     @JsonIgnore // using this we can prevent circular reference problem
     @ManyToMany
     @JoinTable(name = "Student_Exam_Mapping", joinColumns = @JoinColumn(name = "exam_id"), 
@@ -46,7 +56,12 @@ public class Exam {
     Set<Student> registeredStudents = new HashSet<>();
 
 
-
+    /**
+     * Registers a student for the exam.
+     * 
+     * @param student The student to register.
+     * @return true if the student was successfully registered, false otherwise.
+     */
     public boolean registerStudent(Student student) {
         return this.registeredStudents.add(student);
     }

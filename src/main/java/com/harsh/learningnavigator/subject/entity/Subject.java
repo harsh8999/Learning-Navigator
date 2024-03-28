@@ -10,6 +10,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * Entity class representing a subject.
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,7 +21,9 @@ import lombok.experimental.FieldDefaults;
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    /** Unique identifier for the subject. */
     Long subjectId;
 
+    /** The name of the subject. */
     String name;
 }

@@ -20,6 +20,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * Entity class representing a student.
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -29,8 +32,10 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    /** Unique registration ID for the student. */
     Long registrationId;
 
+    /** The name of the student. */
     String name;
     
     /* 
@@ -38,6 +43,10 @@ public class Student {
     and each subject can have multiple students enrolled in it.
     therefore many to many relation 
     */
+    /** 
+     * Set of subjects in which the student is enrolled.
+     * Many-to-many relationship with Subject entities.
+     */
     @ManyToMany
     Set<Subject> enrolledSubjects = new HashSet<>();
 
@@ -46,15 +55,31 @@ public class Student {
     and each exam can have multiple students registered for it.
     therefore many to many relation
     */
+    /** 
+     * Set of exams for which the student is registered.
+     * Many-to-many relationship with Exam entities.
+     */
     @ManyToMany
     @JoinTable(name = "Student_Exam_Mapping", joinColumns = @JoinColumn(name = "student_id"), 
         	inverseJoinColumns = @JoinColumn(name = "exam_id"))
     Set<Exam> registeredExams = new HashSet<>();
 
+    /**
+     * Adds a subject to the list of enrolled subjects for the student.
+     * 
+     * @param subject The subject to add.
+     * @return true if the subject was added successfully, false otherwise.
+     */
     public boolean addSubject(Subject subject) {
         return enrolledSubjects.add(subject);
     }
 
+    /**
+     * Enrolls the student to an exam.
+     * 
+     * @param exam The exam to enroll in.
+     * @return true if the student was enrolled successfully, false otherwise.
+     */
     public boolean enrollStudentToExam(Exam exam) {
         return registeredExams.add(exam);
     }

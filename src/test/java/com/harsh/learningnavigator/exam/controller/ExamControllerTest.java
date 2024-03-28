@@ -29,6 +29,9 @@ import com.harsh.learningnavigator.exam.services.implementations.ExamServiceImpl
 import com.harsh.learningnavigator.exception.handler.GlobalExceptionHandler;
 import com.harsh.learningnavigator.subject.entity.Subject;
 
+/**
+ * Test class for ExamController.
+ */
 @WebMvcTest(controllers = ExamController.class)
 public class ExamControllerTest {
     @Autowired
@@ -49,6 +52,11 @@ public class ExamControllerTest {
 
     private static final String BASE_URL = "/exams";
 
+    /**
+     * Test case for adding a student to an exam.
+     *
+     * @throws Exception If an error occurs during the test.
+     */
     @Test
     public void addStudentTest() throws Exception {
         Subject subject = new Subject(1L, "Maths");
@@ -63,6 +71,11 @@ public class ExamControllerTest {
             .andExpect(status().isCreated());
     }
 
+    /**
+     * Test case for retrieving all exams.
+     *
+     * @throws Exception If an error occurs during the test.
+     */
     @Test
     public void getExamsTest() throws Exception {
         // for now just return empty list
@@ -75,6 +88,11 @@ public class ExamControllerTest {
 
     }
 
+    /**
+     * Test case for retrieving an exam by its ID.
+     *
+     * @throws Exception If an error occurs during the test.
+     */
     @Test
     public void getExamByIdTest() throws Exception {
         ExamDto examDto = new ExamDto(1L, new Subject(), null);
@@ -87,6 +105,11 @@ public class ExamControllerTest {
 
     }
 
+    /**
+     * Test case for handling IllegalArgumentException when getting a student by ID.
+     *
+     * @throws Exception If an error occurs during the test.
+     */
     @Test
     @Description("IllegalArgumentException Exception")
     public void getStudentById_IllegalArgumentExceptionTest() throws Exception {
@@ -108,6 +131,11 @@ public class ExamControllerTest {
     }
 
 
+    /**
+     * Test case for deleting a student.
+     *
+     * @throws Exception If an error occurs during the test.
+     */
     @Test
     @Description("Delete Test No content status")
     public void deleteStudentTest() throws Exception {

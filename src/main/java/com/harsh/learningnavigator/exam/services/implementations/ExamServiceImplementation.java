@@ -17,6 +17,9 @@ import com.harsh.learningnavigator.student.repository.StudentRepository;
 import com.harsh.learningnavigator.subject.entity.Subject;
 import com.harsh.learningnavigator.subject.repository.SubjectRepository;
 
+/**
+ * Implementation of the ExamService interface.
+ */
 @Service
 public class ExamServiceImplementation implements ExamService {
 

@@ -28,15 +28,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ExceptionApiResponse> illegalStateExceptionHandler(IllegalStateException ex){
-        String message = ex.getMessage();
-        ExceptionApiResponse apiResponse = new ExceptionApiResponse(message);
-        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ExceptionApiResponse> illegalArgumentExceptionHandler(IllegalArgumentException ex){
+    /**
+     * Handles IllegalStateException and IllegalArgumentException and returns an HTTP 404 (Not Found) response.
+     * 
+     * @param ex The IllegalStateException or IllegalArgumentException to handle.
+     * @return ResponseEntity containing an ExceptionApiResponse with the error message and HTTP status.
+     */
+    @ExceptionHandler({IllegalStateException.class, IllegalArgumentException.class})
+    public ResponseEntity<ExceptionApiResponse> illegalStateExceptionHandler(Exception ex){
         String message = ex.getMessage();
         ExceptionApiResponse apiResponse = new ExceptionApiResponse(message);
         return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
